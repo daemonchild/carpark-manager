@@ -144,12 +144,17 @@ public class Config {
 
             String line;
 
-            while ((line = bufferreader.readLine()) != null) {     
+            while ((line = bufferreader.readLine()) != null) {
+
+                // We can comment the config file :)
+                if (line.contains(":")) {
            
-                String key = line.split(":")[0];
-                String value = line.split(":")[1];
-                ConfigItem newItem = new ConfigItem(key,value);
-                configItems.add(newItem);
+                    String key = line.split(":")[0];
+                    String value = line.split(":")[1];
+                    ConfigItem newItem = new ConfigItem(key,value);
+                    configItems.add(newItem);
+
+                }
 
             }
 

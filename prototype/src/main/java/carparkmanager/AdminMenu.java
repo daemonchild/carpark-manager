@@ -11,13 +11,16 @@
 
 package carparkmanager;
 
+// Import Libraries
+
 import java.util.ArrayList;
 
+// Begin Class: Admin Menu
 public class AdminMenu {
 
     private static class Const {
 
-        // Constants
+        // Constants uded in case statements
         public static final int LISTALLCARS_IN_DB    = 1001;
         public static final int LISTALLCARS_IN_CP    = 1002;
         public static final int MENU_GET_VRN         = 9001;
@@ -229,7 +232,7 @@ public class AdminMenu {
             }
 
             System.out.print("\t\t\t\t\t\tTotal Spend:\t\t");
-            System.out.println(Ansicolours.fgYELLOW + "£" + totalBalance + Ansicolours.RESET);
+            System.out.println(Ansicolours.fgYELLOW + Config.getValue("currency_symbol") + totalBalance + Ansicolours.RESET);
         
         } 
 

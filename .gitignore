@@ -10,6 +10,11 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# target folders
+/target/maven*
+/target/generated-sources/*
+
+
 # Package Files #
 *.jar
 *.war
@@ -28,3 +33,5 @@ replay_pid*
 
 # Database files - generate one!
 *.csv
+
+

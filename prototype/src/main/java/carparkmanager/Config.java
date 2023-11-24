@@ -70,7 +70,7 @@ public class Config {
         DBFOLDER = System.getProperty("user.dir");
         
         if ((System.getProperty("os.name").startsWith("Windows"))) {
-            DBFILEPATH = DBFOLDER + "\\database-files\\database.csv";
+            DBFILEPATH = DBFOLDER + "\\prototype\\database-files\\database.csv";
         } else {
             DBFILEPATH = DBFOLDER + "/database-files/database.csv";
         }

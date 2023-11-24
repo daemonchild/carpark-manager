@@ -271,7 +271,7 @@ the_log, seen_vrns = GenerateData (NUMBER_PER_DAY, DAYCOUNT)
 
 # Save to a file
 try:
-    file_name = "output.csv"
+    file_name = "output/database.csv"
     file_handle = open(file_name, "w")
     file_handle.write ("VRN,EntryDate,EntryTime,ExitDate,ExitTime,Balance,InCarpark\n")
     for line in the_log:

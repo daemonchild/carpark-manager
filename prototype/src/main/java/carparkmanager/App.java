@@ -27,7 +27,7 @@ public class App
         // Load the Configuration file
         Config cfg = new Config ();
 
-        // Attach to the database and load into memor
+        // Attach to the database and load into memory
         Database.connect();
 
         // Display Opening Banner Text

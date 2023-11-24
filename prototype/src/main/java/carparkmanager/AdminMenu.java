@@ -25,11 +25,10 @@ public class AdminMenu {
         public static final int LISTALLCARS_IN_CP    = 1002;
         public static final int MENU_GET_VRN         = 9001;
         public static final int SH_VEH_IN_CP         = 2001;
-        public static final int SH_VEH_BAL           = 2002;
-        public static final int SH_VEH_RECORD        = 2003;
-        public static final int SH_VEH_HIST          = 2004;
-        public static final int EDIT_VEH_HIST        = 2005;
-        public static final int SH_CARPARK_INFO      = 2006;
+        public static final int SH_VEH_RECORD        = 2002;
+        public static final int SH_VEH_HIST          = 2003;
+        public static final int EDIT_VEH_HIST        = 2004;
+        public static final int SH_CARPARK_INFO      = 2005;
 
     }
 

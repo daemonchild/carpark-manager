@@ -2,13 +2,21 @@
 
 To do: Documentation here
 
+## Folder Structure
+
+
+
+
+## Build Notes
+
+There are a number of ways to build this Java project.
+
 ## Docker Container
 
-Prebuilt:
-- Test
-docker run -ti --rm daemonchild/carpark-manager:0.1
+The preferred way to build 
 
-- Final
-docker run -ti --rm daemonchild/carpark-manager:1.0 (not published)
+docker run -ti --rm daemonchild/carpark-manager:1.0
+
+
 
 ## Build Notes - Manual Build

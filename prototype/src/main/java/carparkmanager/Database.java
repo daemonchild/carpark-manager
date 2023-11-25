@@ -45,21 +45,21 @@ public class Database {
 
     public static void connect ()  {
 
-        readDataFile (Config.DBFILEPATH);
+        readDataFile (Config.getValue("db_filePath"));
         Utils.debugPrintln("Database loaded, " + getCountInDatabase() + " rows");
 
     }
 
     public static void close ()  {
 
-        saveDataFile (Config.DBFILEPATH);
+        saveDataFile (Config.getValue("db_filePath"));
         Utils.debugPrintln("Database saved, " + getCountInDatabase() + " rows");
 
     }
 
     public static void save ()  {
 
-        saveDataFile (Config.DBFILEPATH);
+        saveDataFile (Config.getValue("db_filePath"));
         Utils.debugPrintln("Database saved, " + getCountInDatabase() + " rows");
 
     }
@@ -78,7 +78,7 @@ public class Database {
             String fileHeader = "VRN,EntryDate,EntryTime,ExitDate,ExitTime,Balance,InCarpark\n";
 
             try {
-                FileWriter outputFile = new FileWriter(Config.DBFILEPATH);
+                FileWriter outputFile = new FileWriter(Config.getValue("db_filePath"));
                 outputFile.write(fileHeader);
 
                 for (Vehicle vehicle : carparkData) {
@@ -128,7 +128,7 @@ public class Database {
                     // Calculate the account value in £, and inject into tokens array
                     if (calculateBalance) {
 
-                        float account = (Float.parseFloat(tokens[5])) * Config.FEE;
+                        float account = (Float.parseFloat(tokens[5])) * Integer.parseInt(Config.getValue("parking_fee"));
                         tokens[5] = Float.toString(account);
                         Utils.debugPrintln("We set " + tokens[5]);
 

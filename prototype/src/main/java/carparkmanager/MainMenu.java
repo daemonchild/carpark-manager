@@ -19,6 +19,7 @@ public class MainMenu {
         // Constants
         public static final int MENU_RUNMODE_MANUAL                 = 1001;
         public static final int MENU_RUNMODE_NETWORK                = 1002;
+        public static final int MENU_TRANSLATE                      = 1003;
         public static final int MENU_ADMINMODE                      = 1009;
 
     }
@@ -30,15 +31,20 @@ public class MainMenu {
         boolean exitChosen = false;
 
         Menu mainMenu = new Menu();
-        mainMenu.setMenuTitle(Ansicolours.fgGREEN + "Main Application Menu\t" + Ansicolours.RESET + Config.getValue("name_welsh"));
-        mainMenu.addMenuOption("Enter Run Mode", Const.MENU_RUNMODE_MANUAL);
-        mainMenu.addMenuOption("Enter Admin Menu", Const.MENU_ADMINMODE);
-        mainMenu.addMenuOption("Enter Network Run Mode " + Ansicolours.fgRED + "(Experimental)" + Ansicolours.RESET, Const.MENU_RUNMODE_NETWORK);
-        mainMenu.setoptionalMessage(Ansicolours.fgGREEN + "Current time: " + Ansicolours.RESET + Utils.getTimeNow()+ " " + Utils.getDateNow());
 
         do {
 
             System.out.println("");
+
+            String lang = "_" +Config.getValue("language");
+            mainMenu.setMenuTitle(Ansicolours.fgGREEN + Config.getValue("mm_title"+lang) + "\t\t" + Ansicolours.RESET + Config.getValue("name"+lang));
+            mainMenu.flushMenuOptions();
+            mainMenu.addMenuOption(Config.getValue("mm_runmode"+lang), Const.MENU_RUNMODE_MANUAL);
+            mainMenu.addMenuOption(Config.getValue("mm_adminmode"+lang), Const.MENU_ADMINMODE);
+            mainMenu.addMenuOption(Config.getValue("mm_adminnetworkmode"+lang), Const.MENU_RUNMODE_NETWORK);
+            mainMenu.addMenuOption(Config.getValue("mm_translate"+lang), Const.MENU_TRANSLATE);
+            mainMenu.setoptionalMessage(Ansicolours.fgGREEN + Config.getValue("mm_currenttime"+lang) + " " + Ansicolours.RESET + Utils.getTimeNow()+ " " + Utils.getDateNow());
+
             int menuOption = mainMenu.display();
 
             // The reason we do it this way is that it's now possible to insert menu items
@@ -52,6 +58,20 @@ public class MainMenu {
                 case (Const.MENU_RUNMODE_NETWORK):
 
                     RunMode.networkListener();
+                    break;
+
+                case (Const.MENU_TRANSLATE):
+
+                    if (Config.getValue("language").equals("english")) {
+
+                        Config.setValue("language", "welsh");
+
+                    } else {
+
+                        Config.setValue("language", "english");
+
+                    }
+                    Utils.debugPrintln(Config.getValue("language"));
                     break;
 
                 case (Const.MENU_ADMINMODE):

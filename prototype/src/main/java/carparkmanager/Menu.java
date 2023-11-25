@@ -105,6 +105,25 @@ public class Menu {
         this.menuOptions.add(newItem);
     }
 
+    public void flushMenuOptions () {
+
+        this.menuOptions.clear();
+    }
+
+    public void addMenuOptionHMM (String optionKey, int function) {
+
+        // Create new 
+        MenuItem newItem = new MenuItem();
+
+        int optionNumber = menuOptions.size() + 1;
+
+        newItem.setOption(optionNumber);
+        newItem.setFunction(function);
+        newItem.setOptionText(optionKey);
+
+        this.menuOptions.add(newItem);
+    }
+
     private boolean isNumber(String inputString) {
 
         // If it's empty, just give up
@@ -174,9 +193,9 @@ public class Menu {
 
             }
             System.out.print(Ansicolours.fgYELLOW);
-            System.out.println("99.\tExit this menu."+Ansicolours.RESET);
+            System.out.println("99.\t"+ Config.getValue("menu_quitmenu_"+Config.getValue("language")) +Ansicolours.RESET);
 
-            System.out.print(Ansicolours.fgBLUE + "Please enter option number > " + Ansicolours.RESET);
+            System.out.print(Ansicolours.fgBLUE + Config.getValue("menu_opt_prmt_"+Config.getValue("language")) + "> " + Ansicolours.RESET); 
             int menuOption = getMenuOption();
 
             // Process the options
@@ -185,16 +204,6 @@ public class Menu {
                 break;
             }
             else if (menuOption > 0 & menuOption <= menuOptions.size()) {
-                //System.err.println("Chose option " + menuOption + ", Function: " + menuOptions.get(menuOption-1).function);
-
-                /* Expermimental - Run a function dynamically 
-                Class params[] = {};
-                Object paramsObj[] = {};
-                Class c = Class.forName("AdminMenu");
-                Method m = c.getDeclaredMethod("display", params);
-                Object i = c.getDeclaredConstructor().newInstance();
-                Object r = m.invoke(i, params);
-                */
                 return menuOptions.get(menuOption-1).function;
             } else
             {

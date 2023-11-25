@@ -40,21 +40,23 @@ public class AdminMenu {
 
         boolean exitChosen = false;
 
+        String lang =  "_" + Config.getValue("language");
+
+        Utils.debugPrintln(lang);
 
         adminMenu.setMenuTitle("Admin Menu");
-        adminMenu.addMenuOption("List all vehicles in carpark", Const.LISTALLCARS_IN_CP);
-        adminMenu.addMenuOption("List all vehicles in database", Const.LISTALLCARS_IN_DB);
-        adminMenu.addMenuOption("Set Focus Vehicle", Const.MENU_GET_VRN);
-        adminMenu.addMenuOption("Show vehicle details (current status)", Const.SH_VEH_RECORD);
-        adminMenu.addMenuOption("Show vehicle details (all history)", Const.SH_VEH_HIST);
-        adminMenu.addMenuOption("Edit vehicle details (all history)", Const.EDIT_VEH_HIST);
-        adminMenu.addMenuOption("Show Carpark Information", Const.SH_CARPARK_INFO);
+        adminMenu.addMenuOption(Config.getValue("am_list_in_cp"+lang), Const.LISTALLCARS_IN_CP);
+        adminMenu.addMenuOption(Config.getValue("am_list_in_db"+lang), Const.LISTALLCARS_IN_DB);
+        adminMenu.addMenuOption(Config.getValue("am_set_focus"+lang), Const.MENU_GET_VRN);
+        adminMenu.addMenuOption(Config.getValue("am_sh_veh_det"+lang), Const.SH_VEH_RECORD);
+        adminMenu.addMenuOption(Config.getValue("am_sh_veh_hist"+lang), Const.SH_VEH_HIST);
+        adminMenu.addMenuOption(Config.getValue("am_ed_veh_hist"+lang), Const.EDIT_VEH_HIST);
+        adminMenu.addMenuOption(Config.getValue("am_sh_cp_info"+lang), Const.SH_CARPARK_INFO);
 
 
         do {
 
-            System.out.println("");
-            adminMenu.setoptionalMessage(Ansicolours.fgGREEN + "Focus Vehicle: " + Ansicolours.RESET + focusVRN);
+            adminMenu.setoptionalMessage(Ansicolours.fgGREEN + Config.getValue("am_focus_vehicle_english"+lang) +  Ansicolours.RESET + focusVRN);
             int menuOption = adminMenu.display();
 
 

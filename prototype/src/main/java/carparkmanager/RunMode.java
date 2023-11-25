@@ -26,9 +26,8 @@ public class RunMode {
     private static void printMenuHeader () {
 
         System.out.println("");
-        System.out.println(Ansicolours.MENUHEADER + "Simulating Entry via ANPR system - Run Mode" + Ansicolours.RESET);
-        System.out.println("Enter " + Ansicolours.fgGREEN + exitCode + Ansicolours.RESET + " to return to the Main Menu.");
-
+        System.out.println(Ansicolours.MENUHEADER + Config.getValue("rm_title_"+Config.getValue("language")) + Ansicolours.RESET);
+        System.out.println(Config.getValue("rm_how_exit_"+Config.getValue("language")));
     }
     
     public static void manualEntry () {
@@ -60,8 +59,7 @@ public class RunMode {
 
             } else {
 
-                // process VRN
-                //Utils.debugPrintln("Processing: " + vrnString);
+                ///
 
                 drawCameraImage(vrnString);
 
@@ -93,10 +91,8 @@ public class RunMode {
                             LocalTime exitTime = LocalTime.parse(amendedVehicle.getExitTime(),timeParser);
 
                             Duration timeElapsed = Duration.between (entryTime, exitTime);
-                            //Utils.debugPrintln("Been in the carpark for " + Long.toString(timeElapsed.toMinutes())+" minutes.");
                             int periods = (int) timeElapsed.toMinutes()/15;
-                            float balance = periods * Config.FEE;
-                            //Utils.debugPrintln("That is " + periods + " charging periods at "+ Config.FEE +" = £"+balance);
+                            float balance = periods * Float.parseFloat(Config.getValue("parking_fee"));
                             amendedVehicle.addToBalance(balance);
 
                         }
@@ -104,7 +100,7 @@ public class RunMode {
                         // Just do something nice here
                         String balanceString = "";
 
-                        if (amendedVehicle.getBalance() < Config.FEE) {
+                        if (amendedVehicle.getBalance() < Float.parseFloat(Config.getValue("parking_fee"))) {
 
                             balanceString = Ansicolours.fgCYAN + "You have nothing to pay for this visit." + Ansicolours.RESET;
 
@@ -127,8 +123,8 @@ public class RunMode {
                         Database.addRecord(newVehicle);
                         System.out.println(Ansicolours.fgGREEN+ "Welcome back to "+ Config.getValue("name_welsh") + "!" +Ansicolours.RESET);
                         System.out.println("Your arrival time is: " +Ansicolours.fgCYAN + newVehicle.getEntryDate() +" " + newVehicle.getEntryTime() +Ansicolours.RESET);
-                        System.out.println("The parking fee at here is £" + Config.FEE +" per full 15 minute period.");
-                        System.out.println("Please proceed directly to a free parking space.");
+                        System.out.println("The parking fee at here is £" + Config.getValue("parking_fee") +" per full 15 minute period.");
+                        System.out.println("Please proceed directly to an empty parking space.");
                     }
 
                 } else {
@@ -140,8 +136,8 @@ public class RunMode {
                     Database.addRecord(newVehicle);
                     System.out.println(Ansicolours.fgGREEN + "A very warm welcome!"+Ansicolours.RESET  +" We notice you've never been to "+ Config.getValue("name_welsh")+" before.");
                     System.out.println("Your arrival time is: " +Ansicolours.fgCYAN + newVehicle.getEntryDate() +" " + newVehicle.getEntryTime() +Ansicolours.RESET);
-                    System.out.println("The parking fee here is £" + Config.FEE +" per full 15 minute period.");
-                    System.out.println("Please proceed directly to a free parking space.");
+                    System.out.println("The parking fee here is £" + Config.getValue("parking_fee") +" per full 15 minute period.");
+                    System.out.println("Please proceed directly to an empty parking space.");
 
                 }
 
@@ -164,7 +160,7 @@ public class RunMode {
 
     private static void drawCameraImage(String vrnString) {
 
-        System.out.println(Ansicolours.fgGREEN + "Captured ANPR Image (Simulated):" + Ansicolours.RESET);
+        System.out.println(Ansicolours.fgGREEN + Config.getValue("rm_anpr_image_"+Config.getValue("language")) + Ansicolours.RESET);
         Font plateFont = new Font("Arial", Font.PLAIN, 14);
         AsciiArt plateArt = new AsciiArt();
         Settings setup = new Settings(plateFont, 100, 20);      

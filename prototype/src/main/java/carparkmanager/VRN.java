@@ -25,12 +25,12 @@ public class VRN {
         boolean validVRN = false;
 
         do {
-            System.out.print("Enter registration number > ");
+            System.out.print(Config.getValue("vrn_enter_reg_"+Config.getValue("language"))+ " > ");
             vrnString = getUserInput.nextLine().toUpperCase();
             validVRN = checkValid(vrnString);
 
             if (!validVRN) {
-                System.out.println(Ansicolours.bgRED + Ansicolours.fgWHITE + "[INVALID REGISTRATION ENTERED]" + Ansicolours.RESET);
+                System.out.println(Ansicolours.bgRED + Ansicolours.fgWHITE + "["+Config.getValue("vrn_invalid_reg_"+Config.getValue("language"))+"]" + Ansicolours.RESET);
             }
             
         } while (!validVRN);

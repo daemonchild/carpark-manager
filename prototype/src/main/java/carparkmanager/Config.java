@@ -33,6 +33,14 @@ public class Config {
             return this.value;
         }
 
+        public void setName (String name) {
+            this.name = name;
+        }
+
+        public void setValue (String value) {
+            this.value = value;
+        }
+
         public ConfigItem () {
 
 
@@ -50,14 +58,6 @@ public class Config {
     private static ArrayList<ConfigItem> configItems = new ArrayList<ConfigItem>(1);
 
     // Avoiding Global Constants
-    public static float FEE = 0.3f;
-    public static String CURRENCY = "£";
-    private static String DBFOLDER = "";
-    private static String DBFILE = "database.csv";
-    public static String DBFILEPATH = DBFOLDER + DBFILE;
-    //private static String CONFIGFOLDER = System.getProperty("user.dir")+"\\app-config\\";
-    //private static String CONFIGFILE = "config.txt";
-    //public static String CONFIGFILEPATH = CONFIGFOLDER + CONFIGFILE;
     public static boolean debugMode = true;
     public static String appOpenBanner = welcomeBanner();
     public static String appCloseBanner = goodbyeBanner();
@@ -67,15 +67,21 @@ public class Config {
         this.loadConfigFile ();
 
 
-        DBFOLDER = System.getProperty("user.dir");
-        
+        String dbFolder = System.getProperty("user.dir");
+        String dbFilePath = "";
+
+        // Windows and Linux / MacOS have different file path separators
+        // The Linux version also sets this up for the Container file location inside Docker.
         if ((System.getProperty("os.name").startsWith("Windows"))) {
-            DBFILEPATH = DBFOLDER + "\\prototype\\database-files\\database.csv";
+
+            dbFilePath = dbFolder + "\\prototype\\database-files\\database.csv";
         } else {
-            DBFILEPATH = DBFOLDER + "/database-files/database.csv";
+            dbFilePath = dbFolder + "/database-files/database.csv";
         }
-        ConfigItem newItem = new ConfigItem("db_file_path",DBFILEPATH);
+        ConfigItem newItem = new ConfigItem("db_file_path",dbFilePath);
         configItems.add(newItem);
+
+        dumpConfigDebug();
 
     }
 
@@ -116,6 +122,21 @@ public class Config {
         } 
 
         return "NULL";
+
+    }
+
+    // Set value when key known.
+    public static void setValue (String key, String value) {
+
+
+        for (ConfigItem configItem : configItems) {
+
+            if (key.equals(configItem.name)) {
+                configItem.setValue(value);
+            }
+            
+        } 
+
 
     }
 

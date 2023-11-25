@@ -2,7 +2,7 @@
 # Section - Application Instance Config
 #
 database_filename:database.csv
-debug_mode:true
+debug_mode:false
 default_parking_fee:0.3
 default_charge_period:0.25
 language:english
@@ -32,6 +32,8 @@ menu_quitmenu_english:Exit this menu.
 menu_quitmenu_welsh:Gadael y ddewislen hon.
 menu_opt_prmt_english:Please enter option number
 menu_opt_prmt_welsh:Rhowch rif yr opsiwn
+menu_app_bye_english:Goodbye from us!
+menu_app_bye_welsh:Hwyl fawr oddi wrthym!
 # Main Menu
 mm_title_english:Main Application Menu
 mm_title_welsh:Prif Ddewislen Gymhwysiad

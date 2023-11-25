@@ -45,21 +45,21 @@ public class Database {
 
     public static void connect ()  {
 
-        readDataFile (Config.getValue("db_filePath"));
+        readDataFile (Config.getValue("db_file_path"));
         Utils.debugPrintln("Database loaded, " + getCountInDatabase() + " rows");
 
     }
 
     public static void close ()  {
 
-        saveDataFile (Config.getValue("db_filePath"));
+        saveDataFile (Config.getValue("db_file_path"));
         Utils.debugPrintln("Database saved, " + getCountInDatabase() + " rows");
 
     }
 
     public static void save ()  {
 
-        saveDataFile (Config.getValue("db_filePath"));
+        saveDataFile (Config.getValue("db_file_path"));
         Utils.debugPrintln("Database saved, " + getCountInDatabase() + " rows");
 
     }
@@ -78,7 +78,7 @@ public class Database {
             String fileHeader = "VRN,EntryDate,EntryTime,ExitDate,ExitTime,Balance,InCarpark\n";
 
             try {
-                FileWriter outputFile = new FileWriter(Config.getValue("db_filePath"));
+                FileWriter outputFile = new FileWriter(filePath);
                 outputFile.write(fileHeader);
 
                 for (Vehicle vehicle : carparkData) {

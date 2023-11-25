@@ -60,7 +60,6 @@ public class Config {
     // Avoiding Global Constants
     public static boolean debugMode = true;
     public static String appOpenBanner = welcomeBanner();
-    public static String appCloseBanner = goodbyeBanner();
 
     public Config () {
 
@@ -91,9 +90,9 @@ public class Config {
 
     }
 
-    private static String goodbyeBanner () {
+    public static String appCloseBanner () {
 
-        return Ansicolours.MENUHEADER + "And it's goodbye from us.\n" + Ansicolours.RESET;
+        return Ansicolours.MENUHEADER + Config.getValue("menu_app_bye_"+Config.getValue("language")) + Ansicolours.RESET;
 
     }
 

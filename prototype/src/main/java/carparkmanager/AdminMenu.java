@@ -56,7 +56,7 @@ public class AdminMenu {
 
         do {
 
-            adminMenu.setoptionalMessage(Ansicolours.fgGREEN + Config.getValue("am_focus_vehicle_english"+lang) +  Ansicolours.RESET + focusVRN);
+            adminMenu.setoptionalMessage(Ansicolours.fgGREEN + Config.getValue("am_focus_vehicle"+lang)+ " " +  Ansicolours.RESET + focusVRN);
             int menuOption = adminMenu.display();
 
 

@@ -51,14 +51,14 @@ public class Utils {
 
     public static void debugPrintln (String message) {
 
-        debugPrint(message);
-        System.out.println();
-
+        if (Config.getValue("debug_mode").equals("true")) {
+            debugPrint(message + "\n");
+        }
     }
 
     public static void debugPrint (String message) {
 
-        if (Config.debugMode) {
+        if (Config.getValue("debug_mode").equals("true")) {
             System.out.print(Ansicolours.fgMAGENTA);
             System.out.print(message);
             System.out.print(Ansicolours.RESET);

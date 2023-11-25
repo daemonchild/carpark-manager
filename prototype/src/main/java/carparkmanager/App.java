@@ -41,7 +41,7 @@ public class App
         Database.close();
 
         // Display Closing Banner Text
-        System.out.print(Config.appCloseBanner);
+        System.out.print(Config.appCloseBanner());
 
         
 

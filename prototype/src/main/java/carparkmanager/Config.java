@@ -55,9 +55,9 @@ public class Config {
     private static String DBFOLDER = "";
     private static String DBFILE = "database.csv";
     public static String DBFILEPATH = DBFOLDER + DBFILE;
-    private static String CONFIGFOLDER = System.getProperty("user.dir")+"\\app-config\\";
-    private static String CONFIGFILE = "config.txt";
-    public static String CONFIGFILEPATH = CONFIGFOLDER + CONFIGFILE;
+    //private static String CONFIGFOLDER = System.getProperty("user.dir")+"\\app-config\\";
+    //private static String CONFIGFILE = "config.txt";
+    //public static String CONFIGFILEPATH = CONFIGFOLDER + CONFIGFILE;
     public static boolean debugMode = true;
     public static String appOpenBanner = welcomeBanner();
     public static String appCloseBanner = goodbyeBanner();

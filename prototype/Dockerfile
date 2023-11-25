@@ -25,7 +25,7 @@ RUN mvn -f /usr/build/prototype/pom.xml package
 FROM python:3.12 AS publish
 LABEL Author: daemonchild
 WORKDIR /app
-COPY ./../extra/generate-test-database/app/ /app
+COPY extra/generate-test-database/app/ /app
 RUN mkdir /app/output
 RUN pip install -r requirements.txt
 RUN python generate-test-data.py 

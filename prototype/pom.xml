@@ -128,7 +128,7 @@
 
       <configuration>
        <executable>docker</executable>
-        <workingDirectory>${project.basedir}../extra/generate-test-database/app/</workingDirectory>
+        <workingDirectory>${project.basedir}</workingDirectory>
         <arguments>
           <argument>login</argument>
           <argument>-u</argument>
@@ -155,28 +155,6 @@
         </arguments>
       </configuration>
     </execution>
-
-<execution>
-      <id>docker-build-gentestdb</id>
-      <phase>install</phase>
-      <goals>
-        <goal>exec</goal>
-      </goals>
-      <configuration>
-        <executable>docker</executable>
-        <workingDirectory>${project.basedir}</workingDirectory>
-        <arguments>
-          <argument>build</argument>
-          <argument>-t</argument>
-          <argument>${project.groupId}/generate-test-database:latest</argument>
-          <argument>.</argument>
-        </arguments>
-      </configuration>
-    </execution>
-
-
-
-
 
    </executions>
    </plugin> 

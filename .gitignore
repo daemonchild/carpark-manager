@@ -31,7 +31,7 @@ replay_pid*
 # IDE
 *.vscode*
 
-# Database files - generate one!
-*.csv
+# Database files - the docker container generates a new one
+# *.csv
 
 

@@ -185,7 +185,7 @@ public class Menu {
             String menuLine = "";
 
             // Display the menu
-            System.out.print(Ansicolours.getString(menuLine, 1)); // NB no newline
+            System.out.print(Ansicolours.getString(menuLine, "fgYELLOW")); // NB no newline
             for (int index = 0; index < menuOptions.size(); index++) {
 
                 menuLine = getMenuLineString(index);

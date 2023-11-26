@@ -12,15 +12,20 @@
 package carparkmanager;
 
 // Import Libraries
-
 import java.util.ArrayList;
 
+//
 // Begin Class: Admin Menu
+//
 public class AdminMenu {
 
+    //
+    // Attributes
+    //    
+
+    // Constants used in case statements
     private static class Const {
 
-        // Constants uded in case statements
         public static final int LISTALLCARS_IN_DB    = 1001;
         public static final int LISTALLCARS_IN_CP    = 1002;
         public static final int MENU_GET_VRN         = 9001;
@@ -32,19 +37,27 @@ public class AdminMenu {
 
     }
 
-    private static String focusDefault = "Not set";
+    // Keep track of the focus vehicle.
+    private static String focusDefault = Config.getValue("am_focus_default");
     private static String focusVRN = focusDefault;
 
+    //
+    // Methods
+    //    
+
+    // Display the Menu
     public static void display () {
+
+        // Create a menu Menu Object
         Menu adminMenu = new Menu();
 
+        // Menu loop variable
         boolean exitChosen = false;
 
         String lang =  "_" + Config.getValue("language");
 
-        Utils.debugPrintln(lang);
-
-        adminMenu.setMenuTitle("Admin Menu");
+        // Setup the Menu
+        adminMenu.setMenuTitle(Config.getValue("am_title"+lang));
         adminMenu.addMenuOption(Config.getValue("am_list_in_cp"+lang), Const.LISTALLCARS_IN_CP);
         adminMenu.addMenuOption(Config.getValue("am_list_in_db"+lang), Const.LISTALLCARS_IN_DB);
         adminMenu.addMenuOption(Config.getValue("am_set_focus"+lang), Const.MENU_GET_VRN);
@@ -53,21 +66,19 @@ public class AdminMenu {
         adminMenu.addMenuOption(Config.getValue("am_ed_veh_hist"+lang), Const.EDIT_VEH_HIST);
         adminMenu.addMenuOption(Config.getValue("am_sh_cp_info"+lang), Const.SH_CARPARK_INFO);
 
-
+        // Until the user exits the menu...
         do {
 
+            // This needs to be inside the loop as the user must reset the focus vehicle
             adminMenu.setoptionalMessage(Ansicolours.fgGREEN + Config.getValue("am_focus_vehicle"+lang)+ " " +  Ansicolours.RESET + focusVRN);
             int menuOption = adminMenu.display();
 
-
+            // The menu option returned is the 'function' assigned when the menu is first setup
             // The reason we do it this way is that it's now possible to insert menu items
             // or reorder without worrying about the case statement values changing
-
-            Utils.debugPrintln(Integer.toString(menuOption));
-
             switch (menuOption) {
                 case (Const.LISTALLCARS_IN_CP):
-                    func_LISTALLCARS_IN_CP ();
+                    func_LISTALLCARS_IN_CP ();          // Uses a private helper function (below) to keep this tidy.
                     break;
 
                 case (Const.LISTALLCARS_IN_DB):
@@ -99,37 +110,71 @@ public class AdminMenu {
                 case (Const.SH_CARPARK_INFO):
                     func_SH_CARPARK_INFO();
                     break;
-
-                     
-                
+                       
                 case 99:
                     // Exit the menu
-                    Database.save();
+                    Database.save();        // Save the database in case any edits have been made
                     exitChosen = true;
                     break;
             } // end switch
         } while (!exitChosen);
 
-    } //end display
+    } // end display
 
-    // Functions for each of the menu items to keep things neat
+    //
+    // Private helper Functions for each of the menu items above
+    //
 
     private static void func_LISTALLCARS_IN_CP () {
+
+        // To do: This is not the prettiest display
+        // NB: Welsh translation for main menus only in prototype
         ArrayList<String> vrnList = Database.getAllVRNsinCP ();
-        System.out.println("These are the vehicles in the carpark:");
-        System.out.println(Utils.createCSVLineString(vrnList));      
+        System.out.println("These are the vehicles currently in the carpark:");
+
+        int count = 1;
+
+        for (String vrn : vrnList) {
+            
+            System.out.println(count + ". " + Ansicolours.fgGREEN + vrn + Ansicolours.RESET + " with " + Ansicolours.fgGREEN + Database.getCountByVRN(vrn) + Ansicolours.RESET + " visits recorded");
+            count++;
+        }     
         System.out.println("\nThere are "+ Ansicolours.fgGREEN + vrnList.size() +  Ansicolours.RESET +" vehicles.\n");
     }
 
     private static void func_LISTALLCARS_IN_DB () {
+
+        // To do: This is not the prettiest display
+        // NB: Welsh translation for main menus only
+
+        // Be nice to sort this list alphabetically.
         ArrayList<String> vrnList = Database.getAllVRNsinDB ();
+        ArrayList<String> regulars = new ArrayList<String>(0);
+
+        int count = 1;
+
         System.out.println("These are ALL the vehicles known to the database:");
-        System.out.println(Utils.createCSVLineString(vrnList));
-        System.out.println("\nThere are "+ Ansicolours.fgGREEN + vrnList.size() +  Ansicolours.RESET +" unique vehicles in the database.\n");
-                
+        for (String vrn : vrnList) {
+
+            String totalBalanceString = String.format("%.2f", Database.getBalanceTotalByVRN(vrn));
+            System.out.println(count + ". " + Ansicolours.fgGREEN + vrn + Ansicolours.RESET + " with " + Ansicolours.fgGREEN + Database.getCountByVRN(vrn) + Ansicolours.RESET + " visits recorded, with a "+ Ansicolours.fgMAGENTA + Config.getValue("currency_symbol")+ totalBalanceString + Ansicolours.RESET + " total spend.");
+            
+            // If they are regular visitors, add them to a list
+            if (Database.getCountByVRN(vrn) >= 3) {
+                regulars.add(vrn);
+            }
+
+            count++;
+        }
+        System.out.println("\nThere are "+ Ansicolours.fgGREEN + vrnList.size() + Ansicolours.RESET + " unique vehicles in the database.");
+        System.out.println("The database contains "+ Ansicolours.fgGREEN + Database.getCountInDatabase() +  Ansicolours.RESET +" records.");
+        System.out.println(Ansicolours.fgCYAN + "Regulars: " + Ansicolours.RESET + regulars.toString());
+        System.out.println();
     }
 
-    private static void func_MENU_GET_VRN () {        
+    private static void func_MENU_GET_VRN () {  
+        
+        // Set the focus vehicle for further queries, but only if we actually have data on that vehicle
         String userVRN = VRN.getFromUser();
         if (Database.getInDatabaseByVRN(userVRN)) {
             focusVRN = userVRN;
@@ -139,6 +184,8 @@ public class AdminMenu {
     }
 
     private static void func_SH_VEH_IN_CP () {
+
+        // If the user has set a vehicle to focus the query then ask the database if the vehicle is present.
         if (!focusVRN.equals(focusDefault)) {
             boolean result = Database.getInCarparkByVRN(focusVRN);
             System.out.print(focusVRN);
@@ -155,17 +202,18 @@ public class AdminMenu {
 
     private static void func_SH_VEH_RECORD () {
 
+        // If the user has set a vehicle to focus the query then ask the database for the last known record
         if (Database.getInDatabaseByVRN(focusVRN)) {
 
-            // We are safe to proceed
-            System.out.println("");
-            System.out.println("The latest record for this vehicle is: ");
+            // Get the last data for vehicle
             Vehicle vehicle = new Vehicle();
             vehicle = Database.getLatestDataByVRN(focusVRN);
             
+            // We track these to format the table nicely
             String exitDate = vehicle.getExitDate();
             String exitTime = "";
-            // If the vehicle is still in the carpark, then 
+
+            // If the vehicle is still in the carpark, then the date will be NULL
             if (exitDate.equals("NULL")) {
                 exitDate = "In Carpark";
                 exitTime = "In Carpark";  
@@ -173,6 +221,9 @@ public class AdminMenu {
                 exitTime = vehicle.getExitTime();
             }
 
+            // Colourful output of the vehicle record
+            System.out.println("");
+            System.out.println("The latest record for this vehicle is: ");
             System.out.println("Registration:\t" +Ansicolours.fgBLUE + vehicle.getVRN() +Ansicolours.RESET);
             System.out.print("Entry Date:\t" +Ansicolours.fgBLUE +  vehicle.getEntryDate()+Ansicolours.RESET);
             System.out.println("\tEntry Time:\t" +Ansicolours.fgBLUE + vehicle.getEntryTime()+Ansicolours.RESET);
@@ -200,17 +251,19 @@ public class AdminMenu {
 
     private static void func_SH_VEH_HIST () { 
 
+        // If the user has set a vehicle to focus the query then ask the database for all records
         if (Database.getInDatabaseByVRN(focusVRN)) {
 
-            // We are safe to proceed
-            System.out.println("");
-            System.out.println("The history for this vehicle is: ");
+
+            // Get all data for vehicle
             ArrayList<Vehicle> selectedData = new ArrayList<Vehicle>(1);
             selectedData = Database.getDataByVRN(focusVRN);
 
             int count = 1;
-            float totalBalance = 0.00f;
 
+            // Print in a table format
+            System.out.println("");
+            System.out.println("The history for this vehicle is: ");
             System.out.println(Ansicolours.fgBLUE+"No.\tRegistration\tEntry\t\t\tExit\t\t\tBalance"+Ansicolours.RESET);
 
             for (Vehicle vehicle : selectedData) {
@@ -227,13 +280,13 @@ public class AdminMenu {
 
                 System.out.println(count + "\t" + vehicle.getVRN() + "\t\t"+ vehicle.getEntryDate() + " " + vehicle.getEntryTime() + "\t"+ exitDate + " " + exitTime + "\t" + Config.getValue("currency_symbol") + vehicle.getBalanceAsString());
                 count ++;
-                float balance = vehicle.getBalance();
-                totalBalance = totalBalance + balance;
                 
             }
 
+            // Calculate the total spend for the vehicle
+            String totalBalanceString = String.format("%.2f", Database.getBalanceTotalByVRN(focusVRN));
             System.out.print("\t\t\t\t\t\tTotal Spend:\t\t");
-            System.out.println(Ansicolours.fgYELLOW + Config.getValue("currency_symbol") + totalBalance + Ansicolours.RESET);
+            System.out.println(Ansicolours.fgYELLOW + Config.getValue("currency_symbol") + totalBalanceString + Ansicolours.RESET);
         
         } 
 
@@ -241,21 +294,18 @@ public class AdminMenu {
 
     private static void func_SH_CARPARK_INFO () {
 
-        System.out.println("Carpark:\t" +Ansicolours.fgBLUE + Config.getValue("name") + " / " + Config.getValue("name_welsh")+Ansicolours.RESET);
+        // Print out the carpark data
+        System.out.println("Carpark:\t" +Ansicolours.fgBLUE + Config.getValue("name_english") + " / " + Config.getValue("name_welsh")+Ansicolours.RESET);
         System.out.println("Postcode:\t" +Ansicolours.fgBLUE + Config.getValue("postcode")+Ansicolours.RESET);
         System.out.println("Location:\t" +Ansicolours.fgBLUE + Config.getValue("latitude") + " / " + Config.getValue("longitude")+Ansicolours.RESET);
         System.out.print("Charging Period (hours): " +Ansicolours.fgBLUE + Config.getValue("charge_period")+Ansicolours.RESET);
         System.out.println("\tParking Fee: " +Ansicolours.fgBLUE + Config.getValue("parking_fee")+Ansicolours.RESET);
         System.out.println("Capacity (not tracked):\t" +Ansicolours.fgBLUE +  Config.getValue("capacity")+Ansicolours.RESET);
 
-
-
-    }
-
-    private static void func_APP_METADATA () {
-
-
-        
     }
 
 } // end class
+
+//
+// End of File: Admin Menu Class
+//

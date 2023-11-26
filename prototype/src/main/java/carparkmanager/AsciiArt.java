@@ -1,7 +1,24 @@
+// 
+// File:     ASCII Art Class
+//
+// Course:   DAT4001 
+// Date:     Autumn 2023
+// Group:    
+//           Ross Grant
+//           Sam Loftus
+//           Tom Rowan
+//
+// Author:   EugeneP, via https://github.com/eugenp 
+//
+
 package carparkmanager;
 
-// NB - This is used almost verbatim from:
+//
+// We do not claim credit for the work in this file.
+// This is code used by us to draw the simulated ANPR images.
+// This class is used *almost* verbatim from the URL below with a small change to make the Settings subclass available.
 // https://github.com/eugenp/tutorials/blob/master/core-java-modules/core-java-console/src/main/java/com/baeldung/asciiart/AsciiArt.java
+//
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -64,3 +81,7 @@ public class AsciiArt {
         }
     }
 }
+
+//
+// End of File: ASCII Art Class
+//

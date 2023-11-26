@@ -1,14 +1,16 @@
 #
 # Section - Application Instance Config
 #
+
 database_filename:database.csv
-debug_mode:false
-default_parking_fee:0.3
-default_charge_period:0.25
+debug_mode:true
 language:english
+currency_symbol:£
+
 #
 # Section - Carpark
 #
+
 name_english:Park U Safe @ Cardiff Met
 name_welsh:Parc u yn Ddiogel @ Met Caerdydd
 language:english
@@ -18,23 +20,32 @@ postcode:CY5 2YB
 capacity:500
 parking_fee:0.3
 charge_period:0.25
-section:app_config
+
+
 #
 # Section - Application Metadata
 #
+
 _app_title:Carpark Manager
 _app_version:1.0
 _app_authors:["Ross Grant", "Sam Loftus", "Tom Rowan"]
+
 #
 # Section - Menu Text
+# NB: Welsh translation for main menus only in prototype
 #
+
 menu_quitmenu_english:Exit this menu.
 menu_quitmenu_welsh:Gadael y ddewislen hon.
 menu_opt_prmt_english:Please enter option number
 menu_opt_prmt_welsh:Rhowch rif yr opsiwn
 menu_app_bye_english:Goodbye from us!
 menu_app_bye_welsh:Hwyl fawr oddi wrthym!
+
+#
 # Main Menu
+#
+
 mm_title_english:Main Application Menu
 mm_title_welsh:Prif Ddewislen Gymhwysiad
 mm_currenttime_english:Current time
@@ -47,7 +58,13 @@ mm_adminnetworkmode_english:Enter Network Run Mode (Experimental)
 mm_adminnetworkmode_welsh:Rhowch y modd rhedeg rhwydwaith (Arbrofol)
 mm_translate_english:Defnyddio system yn y Gymraeg
 mm_translate_welsh:Use System in English.
+
+#
 # Admin Menu
+#
+
+am_title_english:Admin Menu
+am_title_welsh:Dewislen Weinyddol
 am_list_in_cp_english:List all vehicles in carpark
 am_list_in_cp_welsh:Rhestrwch yr holl gerbydau yn y maes parcio
 am_list_in_db_english:List all vehicles in database
@@ -64,6 +81,8 @@ am_ed_veh_hist_english:Edit vehicle details (all history)
 am_ed_veh_hist_welsh:Golygu manylion cerbyd (holl hanes)
 am_sh_cp_info_english:Show Carpark Information
 am_sh_cp_info_welsh:Dangos Gwybodaeth Maes Parcio
+am_focus_default:Not set
+
 #
 # Run Mode
 #

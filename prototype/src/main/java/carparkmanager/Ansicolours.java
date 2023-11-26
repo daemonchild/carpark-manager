@@ -1,7 +1,25 @@
+// 
+// File:     ANSI Colours Class
+//
+// Course:   DAT4001 
+// Date:     Autumn 2023
+// Group:    
+//           Ross Grant
+//           Sam Loftus
+//           Tom Rowan
+// 
+
 package carparkmanager;
 
-// Defines ANSI Colour Codes for use with println et al
+// Defines ANSI Colour Codes (American National Standards Institute)
+// Reference: https://gist.github.com/Prakasaka/219fe5695beeb4d6311583e79933a009
+
+// Begin: Class 
 public class Ansicolours {
+
+    //
+    // Attributes
+    //
 
     // Foreground Colours
     public static String fgBLUE = "\u001B[34m";
@@ -14,7 +32,6 @@ public class Ansicolours {
     public static String fgMAGENTA = "\u001B[35m";
 
     // Background Colours
-
     public static String bgBLUE = "\u001B[44m";
     public static String bgCYAN = "\u001B[46m";
     public static String bgRED = "\u001B[41m";
@@ -27,7 +44,7 @@ public class Ansicolours {
     // Reset Code
     public static String RESET  = "\u001B[0m";
 
-    // Helpful Combos
+    // Helpful Combinations
     public static String WARN               = bgYELLOW + fgBLACK;
     public static String ERROR              = bgRED + fgBLACK;
     public static String GOOD               = bgCYAN + fgBLACK;
@@ -35,18 +52,22 @@ public class Ansicolours {
     public static String MENUOPTION         = fgYELLOW;
     public static String MENUERROR          = bgRED + fgWHITE;
 
-    public static String getString (String message, int colourValue) {
+    //
+    // Methods
+    //
 
-        // From a map of sorts I guess?
+    // Returns a string wrapped by fgYellow
+    public static String getString (String message, String colourValue) {
+
+        // Needs fixing to look up in a map.
         String theString = "";
-
-        // Look up in map - just yellow for now!
-        String colour = fgYELLOW;
-
-        theString = colour + message + RESET;
-
+        theString = fgYELLOW + message + RESET;
         return theString;
 
     }
 
 }
+
+//
+// End of File: ANSI Colours Class
+//

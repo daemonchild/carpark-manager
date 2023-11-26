@@ -155,6 +155,9 @@ public class RunMode {
         } while (!exitChosen);
         
         Utils.debugPrintln("[Exit code entered.]");
+        Database.save();        // Save the database because edits have been made
+                                // A real database would commit instantly. 
+                                // This seems a reasonable compromise for the prototype.
 
     }
 

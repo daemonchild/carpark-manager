@@ -105,9 +105,8 @@ public class Vehicle {
 
     public String getBalanceAsString () {
 
-        
-        String value = Float.toString(this.balance);
-        return value;
+        String valueString = String.format("%.2f", this.balance);
+        return valueString;
 
     }
 

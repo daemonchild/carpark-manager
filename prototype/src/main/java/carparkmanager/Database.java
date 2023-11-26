@@ -190,13 +190,12 @@ public class Database {
 
     }
 
-    // Because why not?
+    // Get total size of database
     public static int getCountInDatabase () {
-
         return (carparkData.size()); 
-
     }
     
+    // Check: is the vehicle in the carpark?
     public static boolean getInCarparkByVRN (String vrn) {
 
         // Select inCarpark from carparkDatabase where 'vrn' = vrn
@@ -205,29 +204,23 @@ public class Database {
         // Get the LAST entry in the database 
         selectedData = getLatestDataByVRN(vrn);
         if (selectedData == null) {
-
             return false;
-
         } else {
-
             if (selectedData.getInCarpark().toUpperCase().equals("TRUE")) {
-
                 return true;
-
             } else {
-            
                 return false;
             }
         }
 
     }
 
+    // How many records for a given vehicle?
     public static int getCountByVRN (String vrn) {
 
-        // COUNT (Select vrn from carparkDatabase where 'vrn' = vrn)
+        // SELECT COUNT (vrn) from carparkDatabase where 'vrn' = vrn;
         ArrayList<Vehicle> selectedData = getDataByVRN(vrn);
         return selectedData.size();
-
 
     } //end getCount
 

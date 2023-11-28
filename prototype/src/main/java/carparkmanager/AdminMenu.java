@@ -46,7 +46,7 @@ public class AdminMenu {
     //    
 
     // Display the Menu
-    public static void display () {
+    public void display () {
 
         // Create a menu Menu Object
         Menu adminMenu = new Menu();

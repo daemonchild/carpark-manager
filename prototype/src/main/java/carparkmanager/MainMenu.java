@@ -9,10 +9,28 @@
 //           Tom Rowan
 // 
 
-
 package carparkmanager;
 
+// 
+// File:     Main Menu Class
+//
+// Course:   DAT4001 
+// Date:     Autumn 2023
+// Group:    
+//           Ross Grant
+//           Sam Loftus
+//           Tom Rowan
+// 
+
+//
+// Begin Class: MainMenu
+//
+
 public class MainMenu {
+
+    //
+    // Attributes
+    //    
 
     private static class Const {
 
@@ -24,7 +42,15 @@ public class MainMenu {
 
     }
 
+    //
+    // Constructors
+    //    
+
     public MainMenu () {}
+
+    //
+    // Methods
+    //    
 
     public void display () {
 
@@ -35,13 +61,14 @@ public class MainMenu {
         do {
 
             System.out.println("");
-
             String lang = "_" +Config.getValue("language");
+
+            // Setup the menu, with Welsh tranlsation possible
             mainMenu.setMenuTitle(Ansicolours.fgGREEN + Config.getValue("mm_title"+lang) + "\t\t" + Ansicolours.RESET + Config.getValue("name"+lang));
             mainMenu.flushMenuOptions();
             mainMenu.addMenuOption(Config.getValue("mm_runmode"+lang), Const.MENU_RUNMODE_MANUAL);
             mainMenu.addMenuOption(Config.getValue("mm_adminmode"+lang), Const.MENU_ADMINMODE);
-            mainMenu.addMenuOption(Config.getValue("mm_adminnetworkmode"+lang), Const.MENU_RUNMODE_NETWORK);
+            //mainMenu.addMenuOption(Config.getValue("mm_adminnetworkmode"+lang), Const.MENU_RUNMODE_NETWORK);
             mainMenu.addMenuOption(Config.getValue("mm_translate"+lang), Const.MENU_TRANSLATE);
             mainMenu.setoptionalMessage(Ansicolours.fgGREEN + Config.getValue("mm_currenttime"+lang) + " " + Ansicolours.RESET + Utils.getTimeNow()+ " " + Utils.getDateNow());
 
@@ -49,6 +76,7 @@ public class MainMenu {
 
             // The reason we do it this way is that it's now possible to insert menu items
             // or reorder without worrying about the case statement values changing
+
             switch (menuOption) {
                 case (Const.MENU_RUNMODE_MANUAL):
 
@@ -62,21 +90,21 @@ public class MainMenu {
 
                 case (Const.MENU_TRANSLATE):
 
+                    // Flip the language
                     if (Config.getValue("language").equals("english")) {
 
                         Config.setValue("language", "welsh");
-
                     } else {
-
                         Config.setValue("language", "english");
-
                     }
-                    Utils.debugPrintln(Config.getValue("language"));
+
                     break;
 
                 case (Const.MENU_ADMINMODE):
 
-                    AdminMenu.display();
+                    // Call the admin menu
+                    AdminMenu am = new AdminMenu();
+                    am.display();
                     break;
             
                 case 99:
@@ -88,5 +116,8 @@ public class MainMenu {
         
     }
 
-
 }
+
+//
+// End of File: Main Menu Class
+//

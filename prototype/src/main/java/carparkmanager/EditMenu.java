@@ -1,18 +1,36 @@
+// 
+// File:     Edit Menu Class
+//
+// Course:   DAT4001 
+// Date:     Autumn 2023
+// Group:    
+//           Ross Grant
+//           Sam Loftus
+//           Tom Rowan
+// 
+
 package carparkmanager;
 
+// Import Libraries
 import java.util.Scanner;
 import java.util.ArrayList;
 
+//
+// Begin Class: Database
+//  
+
 public class EditMenu {
 
+    //
+    // Attributes
+    //    
+
+    // Constants used in case statements
     private static class Const {
 
-        // Constants
-        public static final int MENU_EDIT        = 1001;
-        public static final int MENU_DELETE      = 1002;
+        public static final int MENU_EDIT         = 1001;
+        public static final int MENU_DELETE       = 1002;
 
-
-        // Constants
         public static final int MENU_ENTRYD       = 2001;
         public static final int MENU_ENTRYT       = 2002;
         public static final int MENU_EXITD        = 2003;
@@ -23,7 +41,12 @@ public class EditMenu {
 
     }
 
+    // This Edit/Delete menu is all about this VRN
     private String vrnString = "";
+
+    //
+    // Constructors
+    // 
 
     public EditMenu (String vrn) {
 
@@ -31,17 +54,21 @@ public class EditMenu {
         
     }
 
+    //
+    // Methods
+    // 
+
     public void display () {
         Menu thisMenu = new Menu();
 
         boolean exitChosen = false;
 
+        // Setup the Menu
         thisMenu.setMenuTitle("Edit History for " + this.vrnString);
         thisMenu.addMenuOption("Edit Line", Const.MENU_EDIT);
         thisMenu.addMenuOption("Delete Line", Const.MENU_DELETE);
 
         int numberRows = Database.getCountByVRN(vrnString);
-
 
         do {
 
@@ -49,6 +76,7 @@ public class EditMenu {
             int menuOption = thisMenu.display();
             int chosenRow = 0;
             ArrayList<Integer> rows = Database.getIndicesByVRN(this.vrnString);
+
             // The reason we do it this way is that it's now possible to insert menu items
             // or reorder without worrying about the case statement values changing
             switch (menuOption) {
@@ -60,11 +88,16 @@ public class EditMenu {
 
                 case (Const.MENU_EDIT):
                     chosenRow = getRowFromUser(numberRows, "Enter row number to " + Ansicolours.fgGREEN + "edit:" + Ansicolours.RESET);
+
+                    // New object to be edited, copy old into it
                     Vehicle amendedVehicle = new Vehicle();
                     amendedVehicle = Database.getRecordByIndex(rows.get(chosenRow-1));
+
+                    // Get user to perform the edit via helper function below.
                     amendedVehicle = editVehicle (amendedVehicle);
+
+                    // Update the record
                     Database.updateRecordByIndex(rows.get(chosenRow-1), amendedVehicle);
-                    Utils.debugPrintln(amendedVehicle.toString());
                     break;
             
                 case 99:
@@ -76,6 +109,11 @@ public class EditMenu {
 
     }
 
+    //
+    // Private helper Functions 
+    //
+
+    // Get the row number from a user
     private static int getRowFromUser (int maxRow, String messageString) {
 
         // Get From a user scanner
@@ -86,37 +124,47 @@ public class EditMenu {
         boolean validVRN = false;
 
         do {
+
+            // A bit of UX :-)
             if (maxRow == 1) {
 
-                System.out.println("You can only choose row 1.");
+                System.out.println(Ansicolours.fgCYAN + "You can only choose row 1." + Ansicolours.RESET);
+                // So we choose one for them.
+                return 1;
 
             } else if (maxRow == 2) {
 
-                System.out.println("You may choose between rows 1 and 2.");
+                System.out.println("You may choose rows 1 or 2.");
 
             } else {
-                System.out.println("You can choose rows 1 to " + maxRow + ".");
+                System.out.println("You can choose from rows 1 to " + maxRow + ".");
             }
 
             System.out.print(messageString + " > ");
             number = getUserInput.nextInt();
 
+            // Validate their choice
             if (!(number > 0 & number <= maxRow)) {
                 System.out.println(Ansicolours.bgRED + Ansicolours.fgWHITE + "[INVALID ROW ENTERED]" + Ansicolours.RESET);
             }
             
         } while (!(number > 0 & number <= maxRow));
 
+        // Note: Could allow a return of 0 to abort the edit.
+        // Would have to pass this back up each function.
+
         return number;
 
     }
 
+    // Second menu, linked only from first Edit menu.
     private static Vehicle editVehicle (Vehicle vehicle) {
-
 
         Menu editmenu = new Menu();
         boolean exitChosen = false;
 
+        // Setup the menu
+        // No welsh here yet :-(
         editmenu.setMenuTitle("Choose a column to edit:");
         editmenu.addMenuOption("Entry Date", Const.MENU_ENTRYD);
         editmenu.addMenuOption("Entry Time", Const.MENU_ENTRYT);
@@ -127,11 +175,17 @@ public class EditMenu {
         editmenu.addMenuOption("View record", Const.SH_RECORD);
         editmenu.setoptionalMessage("Changes are SAVED on exit.");
 
+        String status = "unedited, saved";
+
         do {
             System.out.println("");
-            System.out.println("Registration, EntryDate, EntryTime, ExitDate, ExitTime, Balance, InCarpark");
-            System.out.println(vehicle.toString());
+            System.out.println(Ansicolours.fgYELLOW + "Edit Record (" + status + ")" + Ansicolours.RESET);
+            System.out.println(Ansicolours.fgGREEN +"\t\tRegistration, Entry Date, Entry Time, Exit Date, Exit Time, Balance, In Carpark"+ Ansicolours.RESET);
+            System.out.println("\t\t"+vehicle.toString());
             int menuOption = editmenu.display();
+
+            // We know they will edit something or leave
+            status = "edited, unsaved";
 
             // The reason we do it this way is that it's now possible to insert menu items
             // or reorder without worrying about the case statement values changing
@@ -153,18 +207,21 @@ public class EditMenu {
                             vehicle.addToBalance(getBalanceFromUser());
                             break;
                         case (Const.MENU_ICP):
+
+                            // Flip the InCarpark flag for the vehicle record
                             if (vehicle.getInCarpark().toUpperCase().equals("FALSE")) {
+
+                                // If it's not left, when did it leave? We don't know yet.
                                 vehicle.setInCarpark("True");
                                 vehicle.setExitTime("NULL");
                                 vehicle.setExitDate("NULL");
                             } else { 
+
+                                // If it's left, when did it leave? Now. 
                                 vehicle.setInCarpark("False");
                                 vehicle.setExitDate(Utils.getDateNow());
                                 vehicle.setExitTime(Utils.getTimeNow());
                             }
-                            break;
-                        case (Const.SH_RECORD):
-                            System.out.println(vehicle.toString());
                             break;
                         case 99:
                             // Exit the menu
@@ -177,50 +234,168 @@ public class EditMenu {
 
     }
 
+    // Get a date from a user
     private static String getDateFromUser () {
 
-        // Get From a user scanner
-        // Check for validity
         Scanner getUserInput = new Scanner(System.in);
-
         boolean validDate = false;
 
-        System.out.print("Enter a date (YYYY-MM-DD) > ");
-        String userDate = getUserInput.nextLine();
+        do {
+                System.out.print("Enter a date (YYYY-MM-DD) > ");
+                String userDate = getUserInput.nextLine();
 
-        // To Do: Check for validity
+                validDate = checkDateValid(userDate);
 
-        return userDate;
+                if (validDate) {
+                    return userDate;
+                } else {
+                    System.out.println(Ansicolours.bgRED + Ansicolours.fgWHITE + "[INVALID DATE ENTERED - 2020-01-01 to 2029-12-31 PLEASE]" + Ansicolours.RESET);
+                }
+            
+        } while (!validDate);
 
+        return "This will satisfy the compiler, but never ever be used.";
 
     }
 
+    private static boolean checkDateValid (String dateString) {
+
+        // Matching 202y-mm-dd
+        final String regexString = "^202[0-9]-[0-1]{1}[0-9]-[0-3]{1}[0-9]";
+
+        // Return boolean value based on regex match
+         try {
+
+            // First check, is it bascially a date?
+            // This provides protection against weird strings.
+            if (dateString.matches(regexString)) {
+
+                // Second check
+                String[] tokens = dateString.split("-");
+                int year = Integer.parseInt(tokens[0]);
+                int month = Integer.parseInt(tokens[1]);
+                int day = Integer.parseInt(tokens[2]);
+
+                if (year < 2020 || year >= 2030) {
+                    return false;
+                }
+
+                if (month < 1 || month > 12) {
+                    return false;
+                }
+
+                if (day < 1 || day > 31) {
+                    return false;
+                }
+
+                // OK... You can still have the 31st Feb.. (and some others)
+                if (month == 2 & day > 29) {
+                    return false;
+                }
+                return true;
+
+            } else {
+                return false;
+            }
+       
+        } // end try
+        catch (Exception e) {
+       
+            // If things go wrong, fail gracefully.
+            System.out.println(Ansicolours.bgRED + Ansicolours.fgWHITE + "[INTERNAL ERROR] VRN Legality Check failed." + Ansicolours.RESET);
+            return false;
+       
+        } // end catch
+
+    }
+
+    // Get a time from a user
     private static String getTimeFromUser () {
 
         // Get From a user scanner
-        // Check for validity
+
         Scanner getUserInput = new Scanner(System.in);
         boolean validTime = false;
 
-        System.out.print("Enter a time (HH:mm:ss) > ");
-        String userTime = getUserInput.nextLine();
+        do {
+                
+                System.out.print("Enter a time (HH:mm:ss) > ");
+                String userTime = getUserInput.nextLine();
 
-        // To Do: Check for validity
+                validTime = checkTimeValid(userTime);
 
-        return userTime;
+                if (validTime) {
+                    return userTime;
+                } else {
+                    System.out.println(Ansicolours.bgRED + Ansicolours.fgWHITE + "[INVALID TIME ENTERED - 24 HOURS PLEASE]" + Ansicolours.RESET);
+                }
+            
+        } while (!validTime);
+
+        return "This will satisfy the compiler, but never ever be used.";
 
     }
 
+    private static boolean checkTimeValid (String timeString) {
+
+        // Matching HH:mm:ss
+        final String regexString = "[0-2][0-9]:[0-5][0-9]:[0-5][0-9]";
+
+        // Return boolean value based on regex match
+        try {
+
+            if (timeString.matches(regexString)) {
+
+                // Second check
+                String[] tokens = timeString.split(":");
+                int hour = Integer.parseInt(tokens[0]);
+                int minute = Integer.parseInt(tokens[1]);
+                int second = Integer.parseInt(tokens[2]);
+
+                if (hour < 0 || hour > 23) {
+                    return false;
+                }
+
+                if (minute < 0 || minute > 59) {
+                    return false;
+                }
+
+                if (second < 0 || second > 59) {
+                    return false;
+                }
+
+                return true;
+
+
+            } else {
+                return false;
+            }
+       
+        } // end try
+       catch (Exception e) {
+       
+            // If things go wrong, fail gracefully.
+            System.out.println(Ansicolours.bgRED + Ansicolours.fgWHITE + "[INTERNAL ERROR] VRN Legality Check failed." + Ansicolours.RESET);
+            return false;
+       
+        } // end catch
+   
+    }
+
+
+    // Get a new balance from the user
     private static float getBalanceFromUser () {
 
         // Get From a user scanner
-        // Check for validity
         Scanner getUserInput = new Scanner(System.in);
-        System.out.print("Enter a new balance ()" + Config.getValue("currency_symbol") + ") > ");
+        System.out.print("Enter a new balance (" + Config.getValue("currency_symbol") + ") > ");
 
         float newBalance = getUserInput.nextFloat();
 
-        // To Do: Check for validity
+        // It doesn't matter how much you set it to, but it has to be positive or zero.
+        if (newBalance < 0) {
+            newBalance = 0.00f;
+        }
 
         return newBalance;
 
@@ -228,3 +403,7 @@ public class EditMenu {
 
 
 }
+
+//
+// End of File: Edit Menu Class
+//

@@ -257,31 +257,27 @@ public class Database {
     // Update / Delete Methods
     //
 
-    // Update a record
-    public static void updateRecordByVRN (Vehicle amendedVehicle) {
+    // Delete a VRN from the Database
+    public static void deleteVRNFromDB (Vehicle amendedVehicle) {
 
-        // Update Selected Record
         int searchIndex = 0;
-        int count = 0;
 
         if (carparkData.size() != 0) {
 
             // Search the database for the index number of selected record
             for (Vehicle vehicle : carparkData) {
+
                 if (vehicle.getVRN().equals(amendedVehicle.getVRN())) {
-                    searchIndex = count;
+                    // Delete the record
+                    carparkData.remove(searchIndex);
                 }
-                count++;
             }
 
-            // Update the record
-            carparkData.set(searchIndex, amendedVehicle);
-            Utils.debugPrintln("updateRecordByVRN updated row " + searchIndex + ", " + amendedVehicle.getVRN());
         } 
         
     }
 
-    // Update Record directly usind 'id'
+    // Update Record directly using 'id'
     public static void updateRecordByIndex(int index, Vehicle vehicle) {
         carparkData.set(index, vehicle);
     }
@@ -307,7 +303,7 @@ public class Database {
 
             // Write out the entire database
             for (Vehicle vehicle : carparkData) {
-                outputFile.write(vehicle.getDataString());
+                outputFile.write(vehicle.toString());
             }
 
             outputFile.close();

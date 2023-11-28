@@ -3,7 +3,7 @@
 #
 # Course:   DAT4001 
 # Date:     Autumn 2023
-# Group:    Richard Greenwood
+# Group:    
 #           Ross Grant
 #           Sam Loftus
 #           Tom Rowan
@@ -258,7 +258,7 @@ PERIOD_FEE = 0.30               # 0.30 per 1/4 hour, bargain
 CARPARK_OPEN = "05:30:00"
 CARPARK_CLOSE = "22:30:00"
 MONTHYEAR = "11-2023"
-DAYCOUNT = 23
+DAYCOUNT = 30
 NUMBER_PER_DAY = 50
 
 print ("[HELLO] Generating Test Data File.")

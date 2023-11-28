@@ -8,67 +8,65 @@
 //           Sam Loftus
 //           Tom Rowan
 //
+
 package carparkmanager;
 
 // Import Libraries
-// import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.awt.Font;
 
+// Need to import this specific sub class to create the banner
 import carparkmanager.AsciiArt.Settings;
+
+//
+// Begin Class: RunMode 
+//
 
 public class RunMode {
 
+    // This is how the user exits the ANPR simulation
     static String exitCode = "QQ99QQQ";
-
-    private static void printMenuHeader () {
-
-        System.out.println("");
-        System.out.println(Ansicolours.MENUHEADER + Config.getValue("rm_title_"+Config.getValue("language")) + Ansicolours.RESET);
-        System.out.println(Config.getValue("rm_how_exit_"+Config.getValue("language")));
-    }
     
     public static void manualEntry () {
 
-        // Run mode as expected in requirements
-        // Ask for a VRN, check it for being in the DB etc
-        // Then entry or exit
-        // etc etc etc
-
+        // Run mode - Simulated ANPR System
 
         boolean exitChosen = false;
 
+        // Print the menu header, we will repeat regularly
         printMenuHeader();
-
-        // Do stuff
-
         int loopCounter = 0;
-        int maxBeforeHeader = 2; // Regular reminders of menu header
+        int maxBeforeHeader = 2; 
+
+        // Run Mode Loop
         do {
 
             System.out.println("");
+
+            // get a valid VRP
             String vrnString = VRN.getFromUser();
 
             if (vrnString.equals(exitCode)) {
 
-                // Secret exitCode chosen
+                // 'Secret' exitCode chosen
                 exitChosen = true;
                 break;
 
             } else {
 
-                ///
-
+                // Draw Fake ANPR Camera Image
                 drawCameraImage(vrnString);
 
+                // If in the database, we have seen this vehicle before
                 if (Database.getInDatabaseByVRN(vrnString)) {
+
 
                     if (Database.getInCarparkByVRN (vrnString)) {
 
-                        //Utils.debugPrintln("VRN seen previously, departing.");
-                        
+                        // Is it in the carpark? If so, it's leaving now.
+                        // Update it.
                         Vehicle amendedVehicle = new Vehicle();
 
                         amendedVehicle = Database.getLatestDataByVRN(vrnString);
@@ -81,10 +79,11 @@ public class RunMode {
                         
                         if (!amendedVehicle.getEntryDate().equals(amendedVehicle.getExitDate())) {
 
-                            // We need to know how many days now.
-                            amendedVehicle.addToBalance(999.99f);
+                            // To do - We need to know how many days now, so fine them 100 for now.
+                            amendedVehicle.addToBalance(100);
 
-                        } else {
+                        } 
+                        else {
 
                             DateTimeFormatter timeParser = DateTimeFormatter.ofPattern("HH:mm:ss");
                             LocalTime entryTime = LocalTime.parse(amendedVehicle.getEntryTime(),timeParser);
@@ -97,7 +96,7 @@ public class RunMode {
 
                         }
 
-                        // Just do something nice here
+                        // User experience
                         String balanceString = "";
 
                         if (amendedVehicle.getBalance() < Float.parseFloat(Config.getValue("parking_fee"))) {
@@ -110,15 +109,13 @@ public class RunMode {
 
                         }
 
-                        System.out.println(Ansicolours.fgYELLOW + "Thank you for parking with us today. "+Ansicolours.RESET);
+                        System.out.println(Ansicolours.fgYELLOW + "Thank you for parking with us today. " + Ansicolours.RESET);
                         System.out.println(balanceString);
                         System.out.println("Drive safely! We hope to see you again soon.");
 
                     } else {
-
-                       // Utils.debugPrintln("VRN seen previously, arriving.");
                     
-                        // A blank record, that is now in the carpark.
+                        // We have seen this vehicle before, so park it.
                         Vehicle newVehicle = new Vehicle(vrnString, "True"); 
                         Database.addRecord(newVehicle);
                         System.out.println(Ansicolours.fgGREEN+ "Welcome back to "+ Config.getValue("name_welsh") + "!" +Ansicolours.RESET);
@@ -128,10 +125,8 @@ public class RunMode {
                     }
 
                 } else {
-
-                    //Utils.debugPrintln("VRN NOT seen previously, arriving.");
-                    
-                    // A blank record, that is now in the carpark.
+             
+                    // Never seen before, add to the database and welcome them.
                     Vehicle newVehicle = new Vehicle(vrnString, "True"); 
                     Database.addRecord(newVehicle);
                     System.out.println(Ansicolours.fgGREEN + "A very warm welcome!"+Ansicolours.RESET  +" We notice you've never been to "+ Config.getValue("name_welsh")+" before.");
@@ -161,23 +156,36 @@ public class RunMode {
 
     }
 
+    // Use downloaded ASCII Art library to print a reg plate banner
     private static void drawCameraImage(String vrnString) {
 
         System.out.println(Ansicolours.fgGREEN + Config.getValue("rm_anpr_image_"+Config.getValue("language")) + Ansicolours.RESET);
+
+        // Configure ART Settings
         Font plateFont = new Font("Arial", Font.PLAIN, 14);
         AsciiArt plateArt = new AsciiArt();
         Settings setup = new Settings(plateFont, 100, 20);      
+
+        // Generate and print the reg plate banner
         System.out.print(Ansicolours.fgYELLOW); 
         plateArt.drawString(vrnString, "#", setup);
         System.out.println(Ansicolours.RESET);
 
     }
 
-    public static void networkListener () {
+    // Repeated multiple times, so functionalised
+    private static void printMenuHeader () {
 
-        // To Do -- extension
-
+        System.out.println("");
+        System.out.println(Ansicolours.MENUHEADER + Config.getValue("rm_title_"+Config.getValue("language")) + Ansicolours.RESET);
+        System.out.println(Config.getValue("rm_how_exit_"+Config.getValue("language")));
     }
 
+    // To Do - Extension to simulate remote ANPR devices
+    public static void networkListener () {}
 
 }
+
+//
+// End File: Run Mode Class
+//

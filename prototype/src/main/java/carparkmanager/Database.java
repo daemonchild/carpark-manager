@@ -295,7 +295,7 @@ public class Database {
     private static void saveDataFile (String filePath) {
 
         // Header row
-        String fileHeader = "VRN,EntryDate,EntryTime,ExitDate,ExitTime,Balance,InCarpark\n";
+        String fileHeader = "VRN,EntryDate,EntryTime,ExitDate,ExitTime\n";
 
         try {
             FileWriter outputFile = new FileWriter(filePath);
@@ -303,7 +303,8 @@ public class Database {
 
             // Write out the entire database
             for (Vehicle vehicle : carparkData) {
-                outputFile.write(vehicle.toString());
+                // Write the standard schema to the CSV file
+                outputFile.write(vehicle.toStringForCSV()+"\n");
             }
 
             outputFile.close();
@@ -319,15 +320,19 @@ public class Database {
     // Load the Database
     private static void readDataFile (String filePath) {
 
+        // The number of chargeable time periods
+        float chargePeriod = Float.parseFloat(Config.getValue("charge_period"));
+        float parkingFee = Float.parseFloat(Config.getValue("parking_fee"));
+
         try {
 
-            Scanner scannerCSV = new Scanner(new File (filePath));  
+            Scanner scannerCSV = new Scanner(new File (filePath));
 
             while (scannerCSV.hasNextLine()) {
       
                 // Read the line and create a new vehicle object
                 String[] tokens = scannerCSV.nextLine().split(",");
-                boolean calculateBalance = false;
+                Vehicle newVehicle = new Vehicle();
 
                 if (tokens.length == 0) {
                     // There is something wrong with the file.
@@ -335,16 +340,40 @@ public class Database {
                 }
 
                 // Detect header row
-                // Reference: VRN,EntryDate,EntryTime,ExitDate,ExitTime,Balance,InCarpark
+                // Reference: VRN,EntryDate,EntryTime,ExitDate,ExitTime
                 if (!tokens[0].equals("VRN")) {
 
-                    // Calculate the account value in £, and inject into tokens array
-                    if (calculateBalance) {
-                        float account = (Float.parseFloat(tokens[5])) * Integer.parseInt(Config.getValue("parking_fee"));
-                        tokens[5] = Float.toString(account);
+                    // Setup the new Vehicle object
+                    newVehicle.setVRN(tokens[0]);
+                    newVehicle.setEntryDate(tokens[1]);
+                    newVehicle.setEntryTime(tokens[2]);
+                    newVehicle.setExitDate(tokens[3]);
+                    newVehicle.setExitTime(tokens[4]);
+
+                    // Is the vehicle in the carpark?
+                    if (tokens[3].equals("NULL") || tokens[4].equals("NULL")) {
+                        // No exit date, implies that the car is in the carpark
+                        newVehicle.setInCarpark("True");
+                    } 
+                    else {
+                        newVehicle.setInCarpark("False");
                     }
 
-                    Vehicle newVehicle = new Vehicle(tokens);
+                    if (!tokens[3].equals("NULL")) {
+
+                        // Calculate the balance
+                        String entryString = tokens[1] + " " + tokens[2];
+                        String exitString = tokens[3] + " " + tokens[4];
+
+                        int diffHours = Utils.getDiffDatetimeInHours(entryString, exitString);
+
+                        float timePeriods = diffHours / chargePeriod;
+                        float account = (diffHours * parkingFee);
+
+                        newVehicle.addToBalance(account);
+
+                    }
+
                     addRecord(newVehicle);
                 } 
 

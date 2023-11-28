@@ -219,9 +219,7 @@ def GenerateData (number_to_create_each_day, day_count):
                 entry_date + "," + \
                 entry_time + "," + \
                 exit_date + "," + \
-                exit_time + "," + \
-                str(balance) + "," + \
-                in_car_park
+                exit_time
             
             the_log.append(log_string)
         
@@ -273,7 +271,7 @@ the_log, seen_vrns = GenerateData (NUMBER_PER_DAY, DAYCOUNT)
 try:
     file_name = "output/database.csv"
     file_handle = open(file_name, "w")
-    file_handle.write ("VRN,EntryDate,EntryTime,ExitDate,ExitTime,Balance,InCarpark\n")
+    file_handle.write ("VRN,EntryDate,EntryTime,ExitDate,ExitTime\n")
     for line in the_log:
         file_handle.writelines(line+"\n")
     file_handle.close()

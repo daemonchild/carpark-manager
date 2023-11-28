@@ -3,7 +3,7 @@
 #
 
 database_filename:database.csv
-debug_mode:false
+debug_mode:true
 language:english
 currency_symbol:£
 
@@ -18,8 +18,8 @@ latitude:51.4959261399256
 longitude:-3.2120892177138285
 postcode:CY5 2YB
 capacity:500
-parking_fee:0.3
-charge_period:0.25
+parking_fee:1.25
+charge_period:0.50
 
 
 #

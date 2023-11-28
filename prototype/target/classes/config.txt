@@ -3,7 +3,7 @@
 #
 
 database_filename:database.csv
-debug_mode:true
+debug_mode:false
 language:english
 currency_symbol:£
 

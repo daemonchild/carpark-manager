@@ -135,10 +135,16 @@ public class Utils {
                     return false;
                 }
 
-                // OK... You can still have the 31st Feb.. (and some others)
                 if (month == 2 & day > 29) {
                     return false;
                 }
+
+                if (month == 4 || month == 6 || month == 9 || month == 11) {
+                    if (day > 30) { 
+                        return false;
+                    }
+                }
+
                 return true;
 
             } else {

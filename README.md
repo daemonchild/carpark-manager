@@ -31,29 +31,31 @@ For example: OP51JKL, AS10ASD, QW63RTY. We do not support 'old style' or persona
 
 We have provided 'rough-and-ready' utility software to generate additional sample data as required. (Further information in extra/generate-test-database/README.md).
 
+---
+
 ## Building and Running this Project
 
-There are a number of ways to build this Java project.
+There are multiple way to build this Java project.
 
 Using Docker:
-* Automated Build of Local Docker Image, uses Maven
-* Pull Docker Image from Docker Hub
-* Manually Building the Docker Image
+* Automated Build of Local Docker Image, uses Maven.
+* Pull Docker Image from Docker Hub.
+* Manually Building the Docker Image.
 
 Build and Run:
-* Use an IDE (No detail below - IDE dependant)
-* Automated Build of .jar file, uses Maven
-* Manual Build from Source
+* Use an IDE (No detail below - IDE dependant).
+* Automated Build of .jar file, uses Maven.
+* Manual Build from Source.
 
 
 ## Using Docker
 ### Automated Build of Local Docker Image (Maven)
 
-The preferred and easiest way to build is to use Maven to drive Docker. This guarentees that the build will result in a consistent version of the project that is independent of any local libraries or file paths.
+The preferred and easiest way to build is to use Maven to drive Docker. This guarantees that the build will result in a consistent version of the project that is independent of any local libraries or file paths.
 
 The Dockerfile provides a temporary 'build' image and a runnable container image without needing to compile or build the project code within an IDE. The build process is carried out automatically by the container.
 
-We have provided a option to automatically build docker images locally.  This can be carried out using Apache Maven. (If this is not installed in your environment, it can be obtained from https://maven.apache.org/download.cgi?).
+We have provided an option to automatically build docker images locally. This can be carried out using Apache Maven. (If this is not installed in your environment, it can be obtained from https://maven.apache.org/download.cgi?).
 
 *We have provided a simple set of copy/paste-able commands for each section below the main text description and example commands.*
 
@@ -80,7 +82,7 @@ docker run -ti --name cpm-prototype carparkmanager/prototype:1.0
 
 #### Restarting a Stopped Container
 
-The container created above is not deleted when you exit the Carpark Manager application, and changes to the database are stored. To reenter the container, and continue, please use:
+The container created above is not deleted when you exit the Carpark Manager application, and changes to the database are stored. To re-enter the container, and continue, please use:
 
 ```
 c:\your_path\carpark-manager> docker start -a cpm-prototype
@@ -183,7 +185,9 @@ cp ..\..\src\main\resources\* .
 jar cvmf ..\..\MANIFEST.MF ..\prototype-1.0.jar  .\carparkmanager\*.class
 ```
 
-You will then need to ensure that there is a file called "database.csv" in the prototype/database-files/ folder. There is a file supplied named "sample-database.csv" in the folder. The simplest option is to rename that file and ensure that you run the application 
+You will then need to ensure that there is a file called "database.csv" in the prototype/database-files/ folder. There is a file supplied named "sample-database.csv" in the folder. The simplest option is to rename that file and ensure that you run the application from the root folder of the project.
+
+---
 
 ## Application Development File System 
 

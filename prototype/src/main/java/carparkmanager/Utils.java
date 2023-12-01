@@ -11,9 +11,6 @@
 
 package carparkmanager;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 // Import Libraries
 import java.time.LocalDateTime;

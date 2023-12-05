@@ -303,7 +303,7 @@ public class Database {
 
             // Write out the entire database
             for (Vehicle vehicle : carparkData) {
-                outputFile.write(vehicle.toString());
+                outputFile.write(vehicle.toString()+"\n");
             }
 
             outputFile.close();

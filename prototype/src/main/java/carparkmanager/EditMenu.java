@@ -244,7 +244,7 @@ public class EditMenu {
                 System.out.print("Enter a date (YYYY-MM-DD) > ");
                 String userDate = getUserInput.nextLine();
 
-                validDate = checkDateValid(userDate);
+                validDate = Utils.checkDateValid(userDate);
 
                 if (validDate) {
                     return userDate;
@@ -258,56 +258,7 @@ public class EditMenu {
 
     }
 
-    private static boolean checkDateValid (String dateString) {
 
-        // Matching 202y-mm-dd
-        final String regexString = "^202[0-9]-[0-1]{1}[0-9]-[0-3]{1}[0-9]";
-
-        // Return boolean value based on regex match
-         try {
-
-            // First check, is it bascially a date?
-            // This provides protection against weird strings.
-            if (dateString.matches(regexString)) {
-
-                // Second check
-                String[] tokens = dateString.split("-");
-                int year = Integer.parseInt(tokens[0]);
-                int month = Integer.parseInt(tokens[1]);
-                int day = Integer.parseInt(tokens[2]);
-
-                if (year < 2020 || year >= 2030) {
-                    return false;
-                }
-
-                if (month < 1 || month > 12) {
-                    return false;
-                }
-
-                if (day < 1 || day > 31) {
-                    return false;
-                }
-
-                // OK... You can still have the 31st Feb.. (and some others)
-                if (month == 2 & day > 29) {
-                    return false;
-                }
-                return true;
-
-            } else {
-                return false;
-            }
-       
-        } // end try
-        catch (Exception e) {
-       
-            // If things go wrong, fail gracefully.
-            System.out.println(Ansicolours.bgRED + Ansicolours.fgWHITE + "[INTERNAL ERROR] VRN Legality Check failed." + Ansicolours.RESET);
-            return false;
-       
-        } // end catch
-
-    }
 
     // Get a time from a user
     private static String getTimeFromUser () {
@@ -322,7 +273,7 @@ public class EditMenu {
                 System.out.print("Enter a time (HH:mm:ss) > ");
                 String userTime = getUserInput.nextLine();
 
-                validTime = checkTimeValid(userTime);
+                validTime = Utils.checkTimeValid(userTime);
 
                 if (validTime) {
                     return userTime;
@@ -336,51 +287,7 @@ public class EditMenu {
 
     }
 
-    private static boolean checkTimeValid (String timeString) {
-
-        // Matching HH:mm:ss
-        final String regexString = "[0-2][0-9]:[0-5][0-9]:[0-5][0-9]";
-
-        // Return boolean value based on regex match
-        try {
-
-            if (timeString.matches(regexString)) {
-
-                // Second check
-                String[] tokens = timeString.split(":");
-                int hour = Integer.parseInt(tokens[0]);
-                int minute = Integer.parseInt(tokens[1]);
-                int second = Integer.parseInt(tokens[2]);
-
-                if (hour < 0 || hour > 23) {
-                    return false;
-                }
-
-                if (minute < 0 || minute > 59) {
-                    return false;
-                }
-
-                if (second < 0 || second > 59) {
-                    return false;
-                }
-
-                return true;
-
-
-            } else {
-                return false;
-            }
-       
-        } // end try
-       catch (Exception e) {
-       
-            // If things go wrong, fail gracefully.
-            System.out.println(Ansicolours.bgRED + Ansicolours.fgWHITE + "[INTERNAL ERROR] VRN Legality Check failed." + Ansicolours.RESET);
-            return false;
-       
-        } // end catch
-   
-    }
+ 
 
 
     // Get a new balance from the user

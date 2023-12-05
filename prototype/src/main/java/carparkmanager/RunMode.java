@@ -120,7 +120,7 @@ public class RunMode {
                         Database.addRecord(newVehicle);
                         System.out.println(Ansicolours.fgGREEN+ "Welcome back to "+ Config.getValue("name_welsh") + "!" +Ansicolours.RESET);
                         System.out.println("Your arrival time is: " +Ansicolours.fgCYAN + newVehicle.getEntryDate() +" " + newVehicle.getEntryTime() +Ansicolours.RESET);
-                        System.out.println("The parking fee at here is £" + Config.getValue("parking_fee") +" per full 15 minute period.");
+                        System.out.println("The parking fee at here is £" + Config.getValue("parking_fee") +" per full 30 minute period.");
                         System.out.println("Please proceed directly to an empty parking space.");
                     }
 
@@ -131,7 +131,7 @@ public class RunMode {
                     Database.addRecord(newVehicle);
                     System.out.println(Ansicolours.fgGREEN + "A very warm welcome!"+Ansicolours.RESET  +" We notice you've never been to "+ Config.getValue("name_welsh")+" before.");
                     System.out.println("Your arrival time is: " +Ansicolours.fgCYAN + newVehicle.getEntryDate() +" " + newVehicle.getEntryTime() +Ansicolours.RESET);
-                    System.out.println("The parking fee here is £" + Config.getValue("parking_fee") +" per full 15 minute period.");
+                    System.out.println("The parking fee here is £" + Config.getValue("parking_fee") +" per full 30 minute period.");
                     System.out.println("Please proceed directly to an empty parking space.");
 
                 }

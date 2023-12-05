@@ -81,6 +81,13 @@ public class Vehicle {
 
     }
 
+    public String toStringForCSV() {
+
+        String vehicleString = this.vrn + "," + this.entryDate + "," + this.entryTime + "," + this.exitDate + "," + this.exitTime;
+        return vehicleString;
+
+    }
+
     public String getVRN () {
 
         return this.vrn;

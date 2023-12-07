@@ -136,7 +136,7 @@ public class AdminMenu {
 
         for (String vrn : vrnList) {
             
-            System.out.println(count + ". " + Ansicolours.fgGREEN + vrn + Ansicolours.RESET + " with " + Ansicolours.fgGREEN + Database.getCountByVRN(vrn) + Ansicolours.RESET + " visits recorded");
+            System.out.println(count + ". " + Ansicolours.fgGREEN + vrn + Ansicolours.RESET + " with " + Ansicolours.fgGREEN + Database.countByVRN(vrn) + Ansicolours.RESET + " visits recorded");
             count++;
         }     
         System.out.println("\nThere are "+ Ansicolours.fgGREEN + vrnList.size() +  Ansicolours.RESET +" vehicles.\n");
@@ -157,17 +157,17 @@ public class AdminMenu {
         for (String vrn : vrnList) {
 
             String totalBalanceString = String.format("%.2f", Database.getBalanceTotalByVRN(vrn));
-            System.out.println(count + ". " + Ansicolours.fgGREEN + vrn + Ansicolours.RESET + " with " + Ansicolours.fgGREEN + Database.getCountByVRN(vrn) + Ansicolours.RESET + " visits recorded, with a "+ Ansicolours.fgMAGENTA + Config.getValue("currency_symbol")+ totalBalanceString + Ansicolours.RESET + " total spend.");
+            System.out.println(count + ". " + Ansicolours.fgGREEN + vrn + Ansicolours.RESET + " with " + Ansicolours.fgGREEN + Database.countByVRN(vrn) + Ansicolours.RESET + " visits recorded, with a "+ Ansicolours.fgMAGENTA + Config.getValue("currency_symbol")+ totalBalanceString + Ansicolours.RESET + " total spend.");
             
             // If they are regular visitors, add them to a list
-            if (Database.getCountByVRN(vrn) >= 3) {
+            if (Database.countByVRN(vrn) >= 3) {
                 regulars.add(vrn);
             }
 
             count++;
         }
         System.out.println("\nThere are "+ Ansicolours.fgGREEN + vrnList.size() + Ansicolours.RESET + " unique vehicles in the database.");
-        System.out.println("The database contains "+ Ansicolours.fgGREEN + Database.getCountInDatabase() +  Ansicolours.RESET +" records.");
+        System.out.println("The database contains "+ Ansicolours.fgGREEN + Database.countInDatabase() +  Ansicolours.RESET +" records.");
         System.out.println(Ansicolours.fgCYAN + "Regulars: " + Ansicolours.RESET + regulars.toString());
         System.out.println();
     }

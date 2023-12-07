@@ -68,7 +68,7 @@ public class EditMenu {
         thisMenu.addMenuOption("Edit Line", Const.MENU_EDIT);
         thisMenu.addMenuOption("Delete Line", Const.MENU_DELETE);
 
-        int numberRows = Database.getCountByVRN(vrnString);
+        int numberRows = Database.countByVRN(vrnString);
 
         do {
 

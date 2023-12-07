@@ -175,23 +175,8 @@ public class Database {
 
     }
 
-    // Check: Has the Database ever seen this VRN before, if so how many times?
-    public static int getCountInDatabaseByVRN (String vrn) {
-
-        // SELECT COUNT (vrn) from carparkDatabase where 'vrn' = vrn;
-
-        if (getInDatabaseByVRN(vrn)) {
-            ArrayList<Vehicle> selectedData = getDataByVRN(vrn);
-            return (selectedData.size()); 
-        } else {
-            // If we have not seen it,
-            return 0;
-        }
-
-    }
-
     // Get total size of database
-    public static int getCountInDatabase () {
+    public static int countInDatabase () {
         return (carparkData.size()); 
     }
     
@@ -216,7 +201,7 @@ public class Database {
     }
 
     // How many records for a given vehicle?
-    public static int getCountByVRN (String vrn) {
+    public static int countByVRN (String vrn) {
 
         // SELECT COUNT (vrn) from carparkDatabase where 'vrn' = vrn;
         ArrayList<Vehicle> selectedData = getDataByVRN(vrn);
@@ -258,7 +243,7 @@ public class Database {
     //
 
     // Delete a VRN from the Database
-    public static void deleteVRNFromDB (Vehicle amendedVehicle) {
+    public static void deleteVRNFromDB (String vrnString) {
 
         int searchIndex = 0;
 
@@ -267,7 +252,7 @@ public class Database {
             // Search the database for the index number of selected record
             for (Vehicle vehicle : carparkData) {
 
-                if (vehicle.getVRN().equals(amendedVehicle.getVRN())) {
+                if (vehicle.getVRN().equals(vrnString)) {
                     // Delete the record
                     carparkData.remove(searchIndex);
                 }
@@ -331,11 +316,15 @@ public class Database {
             while (scannerCSV.hasNextLine()) {
       
                 // Read the line and create a new vehicle object
+                
+                
                 String[] tokens = scannerCSV.nextLine().split(",");
+
+
                 Vehicle newVehicle = new Vehicle();
 
-                if (tokens.length == 0) {
-                    // There is something wrong with the file.
+                if (tokens.length <= 4) {
+                    // There is something wrong with the line. (W need 5 tokens minimum)
                     break;
                 }
 

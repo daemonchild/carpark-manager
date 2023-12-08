@@ -17,6 +17,9 @@ public class App
     public static void main( String[] args ) 
     {
 
+
+        System.out.println(Ansicolours.CLS);
+
         // Load the Configuration file
         Config cfg = new Config ();
 

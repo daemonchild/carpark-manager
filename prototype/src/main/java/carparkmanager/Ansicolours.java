@@ -44,6 +44,9 @@ public class Ansicolours {
     // Reset Code
     public static String RESET  = "\u001B[0m";
 
+
+    public final String CLS = "\u001b[2J";
+
     // Helpful Combinations
     public static String WARN               = bgYELLOW + fgBLACK;
     public static String ERROR              = bgRED + fgBLACK;

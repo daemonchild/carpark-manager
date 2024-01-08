@@ -50,7 +50,7 @@ mm_title_english:Main Application Menu
 mm_title_welsh:Prif Ddewislen Gymhwysiad
 mm_currenttime_english:Current time
 mm_currenttime_welsh:Amser presennol
-mm_runmode_english:Enter Run Mode (ANPR Simulation)
+mm_runmode_english:Enter Record Mode (ANPR Simulation)
 mm_runmode_welsh:Rhowch y Modd Rhedeg (Efelychu ANPR)
 mm_adminmode_english:Enter Admin Menu
 mm_adminmode_welsh:Rhowch ddewislen weinyddol
@@ -86,7 +86,7 @@ am_focus_default:Not set
 #
 # Run Mode
 #
-rm_title_english:Simulating Entry via ANPR system - Run Mode
+rm_title_english:Simulating Entry via ANPR system - Record Mode
 rm_title_welsh:Efelychu Mynediad trwy system ANPR - Modd Rhedeg
 rm_how_exit_english:Enter QQ99QQQ to return to the Main Menu.
 rm_how_exit_welsh:Rhowch QQ99QQQ i ddychwelyd i'r Brif Ddewislen.

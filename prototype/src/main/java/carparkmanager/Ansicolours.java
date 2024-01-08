@@ -42,7 +42,10 @@ public class Ansicolours {
     public static String bgMAGENTA = "\u001B[45m";
 
     // Reset Code
-    public static String RESET  = "\u001B[0m";
+    public static String RESET  = "\u001B[0m" + bgBLACK;
+
+
+    public static final String CLS = bgBLACK+"\u001b[2J";
 
     // Helpful Combinations
     public static String WARN               = bgYELLOW + fgBLACK;

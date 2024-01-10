@@ -11,8 +11,8 @@
 .mtj.tmp/
 
 # target folders
-/target/maven*
-/target/generated-sources/*
+target/maven*
+target/generated-sources/*
 
 
 # Package Files #

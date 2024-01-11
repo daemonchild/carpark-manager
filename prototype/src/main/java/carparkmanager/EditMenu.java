@@ -83,7 +83,6 @@ public class EditMenu {
                 case (Const.MENU_DELETE):
                     chosenRow = getRowFromUser(numberRows, "Enter row number to " + Ansicolours.fgRED + "delete:" + Ansicolours.RESET);
                     Database.deleteRecordByIndex(rows.get(chosenRow-1)); 
-                    //rows.remove(chosenRow-1)
                     break;
 
                 case (Const.MENU_EDIT):

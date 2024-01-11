@@ -13,6 +13,7 @@
 # target folders
 target/maven*
 target/generated-sources/*
+*maven*
 
 
 # Package Files #
